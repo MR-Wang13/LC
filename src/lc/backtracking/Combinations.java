@@ -5,27 +5,28 @@ import java.util.List;
 
 public class Combinations {
     static List<List<Integer>> result = new ArrayList<>();
-
+    static int count =0;
     static int N=0;
     static public List<List<Integer>> combine(int n, int k) {
+        count =0;
         N=n;
-        for (int i=1;i<=N;i++) {
-            List<Integer> list = new ArrayList<>();
-            backTracking(i, k, list);
-        }
+        List<Integer> list = new ArrayList<>();
+        backTracking(1, k, list);
+
         return result;
     }
 
     private static void backTracking(int n, int k, List<Integer> list) {
-        list.add(n);
         if (list.size()==k){
             List<Integer> temp  = new ArrayList<>(list);
             result.add(temp);
             return;
         }
 
-        for (int i = n+1 ; i<=N ; i++){
-            backTracking(i,k,list);
+        for (int i = n ; i<= N ; i++){
+            count++;
+            list.add(i);
+            backTracking(i+1,k,list);
             list.remove(list.size()-1);
         }
     }
