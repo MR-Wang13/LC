@@ -2,7 +2,6 @@ package lc.doublePoint;
 
 import lc.LinkList.ListNode;
 
-import javax.swing.tree.TreeNode;
 
 public class RemoveFromEnd {
     static ListNode removeFEnd(ListNode head , int n){
