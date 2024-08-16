@@ -1,20 +1,22 @@
 package lc.top150.binarytree;
 
-public class LC104 {
-    int max = 0;
-    public int maxDepth(TreeNode root) {
-        max = 0;
-        dfs(root,0);
-        return max;
+public class LC226 {
+    public TreeNode invertTree(TreeNode root) {
+        invert(root);
+        return root;
     }
 
-    private void dfs(TreeNode root, int level) {
+    private void invert(TreeNode root) {
         if (root==null){
-            max = Math.max(max,level);
             return;
         }
-        dfs(root.left,level+1);
-        dfs(root.right,level+1);
+        TreeNode left = root.left;
+        TreeNode right = root.right;
+        TreeNode temp = left;
+        root.left = right;
+        root.right = temp;
+        invert(left);
+        invert(right);
     }
 
     public static void main(String[] args) {
@@ -27,9 +29,8 @@ public class LC104 {
         node1.right=node3;
         node3.left=node4;
         node3.right=node5;
-
-        LC104 lc = new LC104();
-        System.out.println(lc.maxDepth(node1));
+        LC226 lc = new LC226();
+        lc.invertTree(node1);
 
     }
 }
