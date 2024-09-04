@@ -20,10 +20,18 @@ public class LC70 {
         climb(sum,1,n,steps+1);
         climb(sum,2,n,steps+1);
     }
-
+    int climbDP(int n){
+        int[] dp = new int[n+1];
+        dp[0] =  dp[1] =1;
+        for (int i = 2;i<=n ;i++){
+            dp[i] = dp[i-1]+dp[i-2];
+        }
+        return dp[n];
+    }
     public static void main(String[] args) {
         LC70 lc = new LC70();
         System.out.println(lc.climbStairs(4));
+        System.out.println(lc.climbDP(4));
     }
 }
 

@@ -17,11 +17,38 @@ public class LC139 {
         }
         return dp[s.length()];
     }
+    boolean solution(String s, List<String> wordDict){
+        int[] memo = new int[s.length()];
+        Arrays.fill(memo,-1);
+        return dp(s,memo,0,wordDict);
+    }
+
+    private boolean dp(String s, int[] memo, int prefix, List<String> wordDict) {
+        if (prefix == s.length()){
+            return true;
+        }
+        if (memo[prefix]!=-1){
+            return memo[prefix] == 1;
+        }
+        for (String word:wordDict){
+            int wordLen = word.length();
+            if (wordLen+prefix>s.length()) continue;
+            String sub = s.substring(prefix,prefix+wordLen);
+            if (!sub.equals(word)) continue;
+            if(dp(s,memo,prefix+wordLen,wordDict)){
+                memo[prefix] =1;
+                return true;
+            }
+
+        }
+        memo[prefix] = 0;
+        return false;
+    }
 
     public static void main(String[] args) {
         LC139 lc = new LC139();
-        String s = "catsandog";
-        String[] dict  = {"cats", "dog", "sand", "and", "cat"};
-        System.out.println(lc.wordBreak(s, new ArrayList<String>(Arrays.asList(dict))));
+        String s = "aaaaaaaaa";
+        String[] dict  = {"a","aa","aaa"};
+        System.out.println(lc.solution(s, new ArrayList<String>(Arrays.asList(dict))));
     }
 }
