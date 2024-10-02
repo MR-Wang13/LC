@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class TreeTest {
     public static class TreeNode {
         int val;
@@ -78,6 +80,5 @@ public class TreeTest {
         int[] nums = {-10,-3,0,5,9};
         TreeNode node =  sortedArrayToBST(nums);
         System.out.println(node);
-
     }
 }
