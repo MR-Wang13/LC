@@ -127,21 +127,24 @@ public class Tdd {
             List<String> tmp = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 Node poll = nodes.poll();
-                assert poll != null;
                 if (poll.node.equals(endWord)) {
-                    break;
+
+                    return pathCount+1;
                 } else {
                     List<String> filterList =  poll.neighbor.stream().filter(item-> !visited.contains(item)).toList();
                     visited.addAll(filterList);
                     tmp.addAll(filterList);
                 }
             }
-            for (String neighbor : tmp) {
-                nodes.offer(graph.map.get(neighbor));
+            if(!tmp.isEmpty()) {
+                for (String neighbor : tmp) {
+                    nodes.offer(graph.map.get(neighbor));
+                }
+
             }
             pathCount++;
         }
-        return pathCount ;
+        return 0 ;
     }
 
     private static Graph assembleGraph(List<String> list) {
@@ -198,8 +201,69 @@ public class Tdd {
             this.neighbor = neighbor;
         }
     }
+/**
+ * dfs
+ *
+ *
+ *
+ * */
 
-    private static void assertTestCase() {
-        System.out.println("Hello");
+int min = Integer.MAX_VALUE;
+public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+    if(beginWord.equals(endWord) || !wordList.contains(endWord)){
+        return 0;
     }
+    //<word, linked word list>
+    HashMap<String, ArrayList<String>> adjMap = new HashMap<>();
+    wordList.add(beginWord);
+
+    for(int i = 0 ; i < wordList.size(); i++){
+        for(int j = i + 1; j < wordList.size(); j++){
+            if(canTransForm(wordList.get(i),wordList.get(j))){
+                adjMap.computeIfAbsent(wordList.get(i), k -> new ArrayList<>()).add(wordList.get(j));
+                adjMap.computeIfAbsent(wordList.get(j), k -> new ArrayList<>()).add(wordList.get(i));
+            }
+        }
+    }
+    min = Integer.MAX_VALUE;
+    HashSet<String> visited = new HashSet<>();
+    visited.add(beginWord);
+    dfs(beginWord, endWord, adjMap, visited, 1);
+    return min == Integer.MAX_VALUE? 0 : min;
+}
+
+    private void dfs(String beginWord, String endWord, HashMap<String, ArrayList<String>> adjMap, HashSet<String> visited, int level) {
+        if(beginWord.equals(endWord)){
+            min = Math.min(min, level);
+            return;
+        }
+        ArrayList<String> neighbors = adjMap.get(beginWord);
+        if(neighbors != null) {
+            for (String neighbor : neighbors) {
+                if (visited.contains(neighbor)) {
+                    continue;
+                }
+                visited.add(neighbor);
+                dfs(neighbor, endWord, adjMap, visited, level + 1);
+                visited.remove(neighbor);
+            }
+        }
+    }
+
+    private boolean canTransForm(String s1, String s2) {
+        if(s1.length() != s2.length() || s1.equals(s2)){
+            return false;
+        }
+        int diff = 0;
+        for (int i = 0; i < s1.length(); i++){
+            if(s1.charAt(i) != s2.charAt(i)){
+                diff++;
+            }
+            if(diff > 1){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
