@@ -1,25 +1,19 @@
 package ng.meta;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LC560 {
     public static int subarraySum(int[] nums, int k) {
-        int left = 0;
-        int right = 0;
-        int sum = nums[right];
+        Map<Integer, Integer> prefixSumMap = new HashMap<>();
+        prefixSumMap.put(0, 1);
+        int sum = 0;
         int count = 0;
-        while (left <= right ){
-            if(sum == k){
-                count++;
-                sum-=nums[left++];
-            }else if(sum > k){
-                sum-=nums[left++];
-            }else {
-
-                right++;
-                if(right == nums.length){
-                    break;
-                }
-                sum+=nums[right];
-            }
+        for(int num : nums){
+            sum+=num;
+            int remove = sum - k;
+            count += prefixSumMap.getOrDefault(remove,0);
+            prefixSumMap.put(sum, prefixSumMap.getOrDefault(sum, 0) + 1);
         }
         return count;
     }
