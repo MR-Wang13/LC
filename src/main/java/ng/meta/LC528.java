@@ -15,6 +15,7 @@ public class LC528 {
             runningSums.add(total);
         }
         totalW = total;
+
     }
 
     public int pickIndex() {

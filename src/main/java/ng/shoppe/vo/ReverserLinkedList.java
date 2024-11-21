@@ -72,13 +72,11 @@ public class ReverserLinkedList {
         }
         int timesOfReversion = length/k;
         start = head;
-        boolean getHead = true;
         ListNode preEnd = null;
         while (start!=null && timesOfReversion-->0){
             ListNode nh= reverseListKForGroup(start,k);
-            if(getHead){
+            if(newHead == null){
                 newHead = nh;
-                getHead = false;
             }
             if(preEnd != null){
                 preEnd.next = nh;
@@ -88,7 +86,7 @@ public class ReverserLinkedList {
         if(preEnd!=null){
             preEnd.next = start;
         }
-        return  getHead?head:newHead;
+        return  newHead == null?head:newHead;
     }
     private static ListNode reverseListKForGroup(ListNode head,int k) {
         if(k == 1){
