@@ -8,6 +8,7 @@
     <artifactId>LC</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
@@ -26,6 +27,28 @@
             <version>5.7.0</version> <!-- 可以是其他 JUnit 5 的版本 -->
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.abstractj.kalium</groupId>
+            <artifactId>kalium</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.abstractj.kalium</groupId>
+            <artifactId>kalium</artifactId>
+            <version>0.8.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.jnr</groupId>
+                    <artifactId>jffi</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 添加 jffi 针对 macOS ARM64（Apple Silicon）的依赖 -->
+
+
 
 
     </dependencies>

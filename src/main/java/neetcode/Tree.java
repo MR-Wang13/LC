@@ -1,5 +1,7 @@
 package neetcode;
 
+import java.util.HashMap;
+
 public class Tree {
     static class TreeNode {
      int val;
@@ -36,8 +38,29 @@ public class Tree {
         return  left && right;
     }
 
+    static  int preIdx = 0;
+    public static TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder == null || inorder == null || preorder.length == 0){
+            return null;
+        }
+        HashMap<Integer, Integer> idxMap = new HashMap<>();
+        for(int i = 0; i < inorder.length; i++){
+            idxMap.put(inorder[i], i);
+        }
+        return buildTree(preorder, idxMap, 0, preorder.length - 1);
+    }
+    public static TreeNode buildTree(int[] preorder, HashMap<Integer, Integer> idxMap, int l, int r) {
+        if(l > r){
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[preIdx]);
+        int mid = idxMap.get(preorder[preIdx++]);
+        root.left = buildTree(preorder, idxMap, l+1, mid - 1 );
+        root.right = buildTree(preorder, idxMap, mid + 1, r);
+        return root;
+    }
     public static void main(String[] args) {
-        TreeNode node1  = new TreeNode(5);
+       /* TreeNode node1  = new TreeNode(5);
         TreeNode node2  = new TreeNode(2);
 
         TreeNode node3  = new TreeNode(9);
@@ -52,6 +75,10 @@ public class Tree {
         node2.right = node5;
         node3.left = node6;
         node3.right=node7;
-        System.out.println(isValidBST(node1));
+        System.out.println(isValidBST(node1));*/
+        int[] preorder={1,2,3,4};
+        int[] inorder={2,1,3,4};
+        TreeNode node = buildTree(preorder, inorder);
+        System.out.println(node);
     }
 }

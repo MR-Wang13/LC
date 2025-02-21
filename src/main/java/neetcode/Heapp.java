@@ -49,11 +49,47 @@ public class Heapp {
             return Integer.compare(x*x + y*y,a.x*a.x+a.y*a.y);
         }
     }
+
+    public static int leastInterval(char[] tasks, int n) {
+        int[] count = new int[26];
+        for(char c : tasks){
+            count[c - 'A']++;
+        }
+
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
+        for(int cnt : count){
+            if(cnt > 0) {
+                pq.offer(cnt);
+            }
+        }
+
+        Queue<int[]> queue  = new ArrayDeque<>();
+
+        int times = 0;
+        while(!pq.isEmpty() || ! queue.isEmpty()){
+            times++;
+            if(!pq.isEmpty()) {
+                int cnt = pq.poll() - 1;
+                if (cnt > 0) {
+                    queue.add(new int[]{cnt, times + n});
+                }
+            }
+
+            if(!queue.isEmpty() && queue.peek()[1] == times){
+                pq.offer(queue.poll()[0]);
+            }
+        }
+        return times;
+    }
     public static void main(String[] args) {
-        int[] stones={2,3,6,2,4};
+       /* int[] stones={2,3,6,2,4};
         //lastStoneWeight(stones);
         int[][] points = {{3,3},{-2,4},{5,-1}};
         int k = 2;
-        kClosest(points,k);
+        kClosest(points,k);*/
+        char[] tasks = {'X','X','Y','Y'};
+        int n = 2;
+        System.out.println(leastInterval(tasks,n));
     }
 }

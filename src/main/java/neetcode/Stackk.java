@@ -144,14 +144,75 @@ public class Stackk {
         return stack.size();
 
     }
+
+    public static int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        Stack<Integer> stack = new Stack();
+        int[] leftMost = new int[n];
+        int[] rightMost = new int[n];
+        int maxRec = 0;
+        for(int i = 0; i < n; i++){
+            leftMost[i] = -1;
+            while(!stack.isEmpty() && heights[stack.peek()] >= heights[i] ){
+                stack.pop();
+            }
+            if(!stack.isEmpty()){
+                leftMost[i] = stack.peek();
+            }
+            stack.push(i);
+        }
+        stack.clear();
+        for(int i = n - 1; i >= 0; i--){
+            rightMost[i] = n;
+            while(!stack.isEmpty() && heights[stack.peek()] >= heights[i] ){
+                stack.pop();
+            }
+            if(!stack.isEmpty()){
+                rightMost[i] = stack.peek();
+            }
+            stack.push(i);
+        }
+        for(int i = 0; i < n; i++){
+            maxRec = Math.max(maxRec, (rightMost[i] - leftMost[i] - 1) * heights[i]);
+        }
+
+        return maxRec;
+    }
+
+    public static int largestRectangleAreaOp(int[] heights) {
+        int maxArea = 0;
+        Stack<int[]> stack = new Stack<>(); // pair: (index, height)
+
+        for (int i = 0; i < heights.length; i++) {
+            int start = i;
+            while (!stack.isEmpty() && stack.peek()[1] > heights[i]) {
+                int[] top = stack.pop();
+                int index = top[0];
+                int height = top[1];
+                maxArea = Math.max(maxArea, height * (i - index));
+                start = index;
+            }
+            stack.push(new int[]{start, heights[i]});
+        }
+
+        for (int[] pair : stack) {
+            int index = pair[0];
+            int height = pair[1];
+            maxArea = Math.max(maxArea, height * (heights.length - index));
+        }
+        return maxArea;
+    }
     public static void main(String[] args) {
         //String[] tokens={"4","13","5","/","+"};
         //System.out.println(generateParenthesis(3));
         //sortKMessedArray(new int[]{1, 4, 5, 2, 3, 7, 8, 6, 10, 9},2);
         //asteroidCollision(new int[]{5,10,-5});
-        int target = 100;
+        /*int target = 100;
         int[] position = {20,35,50,90};
         int[] speed = {20,15,10,1};
-        System.out.println(carFleet(target,position,speed));
+        System.out.println(carFleet(target,position,speed));*/
+        int[] heights={7,6,5,2,2,4};
+        System.out.println(largestRectangleAreaOp(heights));
+
     }
 }
