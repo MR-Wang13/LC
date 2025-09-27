@@ -1,6 +1,9 @@
 package lc.top150.slidewindow;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class LC3 {
     public int lengthOfLongestSubstring(String s) {
@@ -32,9 +35,29 @@ public class LC3 {
         }
 
     }
+    public int lengthOfLongestSubstring1(String s) {
+        int l = 0, r = 0, n = s.length();
+        Set<Character> set = new HashSet<>();
+        int max = 1;
+        while(r < n){
+            char c = s.charAt(r);
+            if (set.contains(c)){
+                while(l<r&&c!=s.charAt(l)){
+                    set.remove(s.charAt(l));
+                    l++;
 
+                }
+                set.remove(l);
+                l++;
+            }
+            set.add(c);
+            max = Math.max(max, r -l+1);
+            r++;
+        }
+        return max;
+    }
     public static void main(String[] args) {
         LC3 lc = new LC3();
-        System.out.println(lc.lengthOfLongestSubstring("tmmzuxt"));
+        System.out.println(lc.lengthOfLongestSubstring1("tmmzuxt"));
     }
 }
